@@ -1,0 +1,119 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+struct ListNode* middleNode(struct ListNode* head) {
+    struct ListNode *slow = head;
+    struct ListNode *fast = head;
+
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+    }
+
+    return slow;
+}
+
+-------------------------------------------------------------------------------------------------------------------
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+void deleteNode(struct ListNode* node) {
+    node->val = node->next->val;
+    node->next = node->next->next;
+}
+
+-------------------------------------------------------------------------------------------------------------------
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */
+
+bool hasCycle(struct ListNode *head) {
+    struct ListNode *slow = head;
+    struct ListNode *fast = head;
+
+    while (fast != NULL && fast->next != NULL) {
+        slow = slow->next;
+        fast = fast->next->next;
+
+        if (slow == fast) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+--------------------------------------------------------------------------------------------------------------------
+
+bool isValid(char* s) {
+    char stack[10000];
+    int top = -1;
+
+    for (int i = 0; s[i] != '\0'; i++) {
+
+        if (s[i] == '(' || s[i] == '{' || s[i] == '[') {
+            stack[++top] = s[i];
+        }
+        else {
+
+            if (top == -1)
+                return false;
+
+            if ((s[i] == ')' && stack[top] == '(') ||
+                (s[i] == '}' && stack[top] == '{') ||
+                (s[i] == ']' && stack[top] == '[')) {
+                top--;
+            }
+            else {
+                return false;
+            }
+        }
+    }
+
+    return top == -1;
+}
+
+-------------------------------------------------------------------------------------------------------------------------
+#include <stdio.h>
+
+int undo[10], redo[10];
+int utop = -1, rtop = -1;
+
+int main() {
+    undo[++utop] = 10;
+    undo[++utop] = 20;
+    undo[++utop] = 30;
+
+    printf("Undo Stack: ");
+    for(int i = utop; i >= 0; i--)
+        printf("%d ", undo[i]);
+
+    redo[++rtop] = undo[utop--];
+
+    printf("\nAfter Undo: ");
+    for(int i = utop; i >= 0; i--)
+        printf("%d ", undo[i]);
+
+    undo[++utop] = redo[rtop--];
+
+    printf("\nAfter Redo: ");
+    for(int i = utop; i >= 0; i--)
+        printf("%d ", undo[i]);
+
+    return 0;
+}
+----------------------------------------------------------------------------------------------------------------------------
